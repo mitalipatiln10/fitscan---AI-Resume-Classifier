@@ -25,6 +25,7 @@ from typing import List, Optional
 from fastapi import FastAPI, File, UploadFile, Form, Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
+from fastapi.staticfiles import StaticFiles
 
 from text_extraction import extract_text_any
 from matcher import evaluate_resume
@@ -184,3 +185,11 @@ async def export_csv(payload: dict = Body(...)):
         media_type="text/csv",
         headers={"Content-Disposition": "attachment; filename=fitscan_candidates.csv"},
     )
+
+
+# ---------------------------------------------------------------------
+# Serve the frontend (static/index.html) directly from this same server.
+# Must be mounted LAST, after all API routes above, so it doesn't shadow
+# them -- it only catches whatever no other route matched (i.e. "/").
+# ---------------------------------------------------------------------
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
