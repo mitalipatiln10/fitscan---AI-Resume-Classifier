@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+python-multipart
+joblib
+scikit-learn
+sentence-transformers
+spacy
+python-docx
+pdfplumber
+numpy
+google-generativeai
